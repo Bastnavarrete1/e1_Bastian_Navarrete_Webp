@@ -32,15 +32,16 @@
     </form>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$("#recuperarForm").submit(function(e){
-    e.preventDefault();
+    $("#recuperarForm").submit(function(e){
+        e.preventDefault();
 
     if($("#recEmail").val().trim() === ""){
         $("#recEmail").next().text("Email obligatorio").show();
     } else {
-        alert("Correo enviado (simulado)");
+        alert("Se ha enviado un codigo para la recuperacion de su cuenta");
     }
 });
 </script>
