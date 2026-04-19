@@ -1,0 +1,13 @@
+Instrucciones para ejecutar
+
+1. Ejecutar migraciones:
+   python manage.py migrate
+
+2. Crear superusuario:
+   python manage.py createsuperuser
+
+   Ej: (Prueba2 / Duoc123.)
+
+
+3. Ejecutar servidor:
+   python manage.py runserver

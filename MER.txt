@@ -1,0 +1,70 @@
+/*Lo hice en dbdiagram.io/d */
+
+
+Table User {
+  id int [pk]
+  username varchar
+  email varchar
+}
+
+Table Categoria {
+  id int [pk]
+  nombre varchar
+}
+
+Table Producto {
+  id int [pk]
+  nombre varchar
+  descripcion text
+  precio int
+  stock int
+  categoria_id int
+  imagen varchar
+}
+
+Table Perfil {
+  id int [pk]
+  user_id int [unique]
+  telefono varchar
+  direccion varchar
+}
+
+Table Carrito {
+  id int [pk]
+  usuario_id int [unique]
+}
+
+/* La diferencia de CarritoItem con DetallePedido que CarritoItem es temporal y editable DetallePedido no */
+
+Table CarritoItem {
+  id int [pk]
+  carrito_id int
+  producto_id int
+  cantidad int
+}
+
+Table Pedido {
+  id int [pk]
+  usuario_id int
+  fecha datetime
+  total int
+}
+
+
+Table DetallePedido {
+  id int [pk]
+  pedido_id int
+  producto_id int
+  cantidad int
+  subtotal int
+}
+
+
+Ref: Producto.categoria_id > Categoria.id
+Ref: Perfil.user_id > User.id
+Ref: Carrito.usuario_id > User.id
+Ref: CarritoItem.carrito_id > Carrito.id
+Ref: CarritoItem.producto_id > Producto.id
+Ref: Pedido.usuario_id > User.id
+Ref: DetallePedido.pedido_id > Pedido.id
+Ref: DetallePedido.producto_id > Producto.id

@@ -1,14 +1,9 @@
-/* =========================
-   RESET (CLAVE)
-========================= */
 * {
     box-sizing: border-box;
 }
 
 
-/* =========================
-   BASE
-========================= */
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -16,9 +11,7 @@ body {
 }
 
 
-/* =========================
-   HEADER
-========================= */
+
 header {
     background-image: url('https://supercurioso.com/wp-content/uploads/2019/11/Qu%C3%A9-son-las-nubes-_-Descubre-sus-clases.jpg');
     background-size: cover;
@@ -34,9 +27,7 @@ header p {
 }
 
 
-/* =========================
-   NAVBAR
-========================= */
+
 nav {
     background-color: #333;
     padding: 15px;
@@ -55,9 +46,6 @@ nav a:hover {
 }
 
 
-/* =========================
-   LAYOUT
-========================= */
 .container {
     width: 80%;
     max-width: 900px;
@@ -76,9 +64,7 @@ hr {
 }
 
 
-/* =========================
-   CARDS / PRODUCTOS
-========================= */
+
 .card {
     background: white;
     padding: 20px;
@@ -90,7 +76,7 @@ hr {
     text-align: center;
     transition: transform 0.3s;
 
-    overflow: hidden; /* 🔥 FIX CLAVE */
+    overflow: hidden;
 }
 
 .card:hover {
@@ -101,23 +87,21 @@ hr {
     margin: 8px 0;
 }
 
-/* 🔥 IMÁGENES CORREGIDAS */
+
 .card img {
     width: 100%;
-    height: 200px;        /* todas iguales */
-    object-fit: cover;    /* recorta sin deformar */
+    height: 200px;
+    object-fit: cover;
     border-radius: 5px;
 }
 
-/* BOTÓN DENTRO DE CARD */
+
 .card .btn {
     width: 100%;
 }
 
 
-/* =========================
-   FORMULARIOS
-========================= */
+
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -144,9 +128,7 @@ form select {
 }
 
 
-/* =========================
-   BOTONES
-========================= */
+
 button,
 .btn {
     display: block;
@@ -184,9 +166,6 @@ button,
 }
 
 
-/* =========================
-   SECCIONES
-========================= */
 #contacto {
     max-width: 500px;
     margin: 40px auto;
@@ -198,9 +177,6 @@ button,
 }
 
 
-/* =========================
-   FOOTER
-========================= */
 footer {
     background-color: #222;
     color: white;

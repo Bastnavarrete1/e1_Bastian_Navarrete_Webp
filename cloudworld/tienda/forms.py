@@ -56,9 +56,8 @@ class RegistroForm(forms.ModelForm):
         return email
 
 
-# -------------------------
-# PRODUCTO
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
@@ -87,9 +86,8 @@ class ProductoForm(forms.ModelForm):
 
     
 
-# -------------------------
-# PERFIL
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil

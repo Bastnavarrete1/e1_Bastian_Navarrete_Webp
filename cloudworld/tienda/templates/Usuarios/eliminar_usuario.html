@@ -6,7 +6,7 @@
 
 <div class="card p-3">
 
-    <p>¿Seguro que quieres eliminar este usuario?</p>
+    <p>Seguro que quieres eliminar este usuario?</p>
 
     <p><strong>{{ usuario.username }}</strong></p>
 
@@ -14,7 +14,7 @@
         {% csrf_token %}
 
         <button type="submit" class="btn btn-danger">
-            Sí, eliminar
+            Si, eliminar
         </button>
 
         <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">

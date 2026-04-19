@@ -159,7 +159,6 @@ def editar_perfil(request):
 
             user.save()
 
-            # 🔥 mantener sesión activa
             update_session_auth_hash(request, user)
 
             return redirect("ver_perfil")
@@ -198,7 +197,7 @@ def ver_carrito(request):
 @login_required
 def agregar_al_carrito(request, producto_id):
     if request.user.groups.filter(name="Vendedor").exists():
-        return redirect("inicio")  # vendedores no compran
+        return redirect("inicio")
 
     carrito, _ = Carrito.objects.get_or_create(usuario=request.user)
     producto = get_object_or_404(Producto, id=producto_id)

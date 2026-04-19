@@ -4,9 +4,8 @@ from django.db.models.signals import post_save, post_migrate
 from django.dispatch import receiver
 
 
-# -------------------------
-# CATEGORÍA
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
 
@@ -14,9 +13,8 @@ class Categoria(models.Model):
         return self.nombre
 
 
-# -------------------------
-# PRODUCTO
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -28,10 +26,8 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
 
+# -----------------------------------------------------------------------------------------
 
-# -------------------------
-# PEDIDO
-# -------------------------
 class Pedido(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
@@ -51,9 +47,8 @@ class DetallePedido(models.Model):
         return f"{self.producto.nombre} x {self.cantidad}"
 
 
-# -------------------------
-# PERFIL
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     telefono = models.CharField(max_length=20, blank=True, null=True)
@@ -67,9 +62,8 @@ class Perfil(models.Model):
         verbose_name_plural = "Perfiles"
 
 
-# -------------------------
-# CARRITO
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 class Carrito(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -89,9 +83,8 @@ class CarritoItem(models.Model):
         return self.cantidad * self.producto.precio
 
 
-# -------------------------
-# SIGNALS
-# -------------------------
+# -----------------------------------------------------------------------------------------
+
 @receiver(post_save, sender=User)
 def crear_perfil(sender, instance, created, **kwargs):
     if created:

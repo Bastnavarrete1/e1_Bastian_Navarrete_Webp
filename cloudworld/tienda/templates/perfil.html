@@ -18,7 +18,7 @@
     <form method="POST" action="{% url 'eliminar_perfil' %}">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger"
-            onclick="return confirm('¿Seguro que quieres eliminar tu cuenta?')">
+            onclick="return confirm('Seguro que quieres eliminar tu cuenta?')">
             Eliminar cuenta
         </button>
     </form>
