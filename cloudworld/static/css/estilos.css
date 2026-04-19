@@ -1,0 +1,210 @@
+/* =========================
+   RESET (CLAVE)
+========================= */
+* {
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   BASE
+========================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+header {
+    background-image: url('https://supercurioso.com/wp-content/uploads/2019/11/Qu%C3%A9-son-las-nubes-_-Descubre-sus-clases.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+header h1,
+header p {
+    text-shadow: 4px 4px 6px rgba(0,0,0,0.9);
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+nav {
+    background-color: #333;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #00d4ff;
+}
+
+
+/* =========================
+   LAYOUT
+========================= */
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+
+/* =========================
+   CARDS / PRODUCTOS
+========================= */
+.card {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 320px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    text-align: center;
+    transition: transform 0.3s;
+
+    overflow: hidden; /* 🔥 FIX CLAVE */
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card p {
+    margin: 8px 0;
+}
+
+/* 🔥 IMÁGENES CORREGIDAS */
+.card img {
+    width: 100%;
+    height: 200px;        /* todas iguales */
+    object-fit: cover;    /* recorta sin deformar */
+    border-radius: 5px;
+}
+
+/* BOTÓN DENTRO DE CARD */
+.card .btn {
+    width: 100%;
+}
+
+
+/* =========================
+   FORMULARIOS
+========================= */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/* =========================
+   BOTONES
+========================= */
+button,
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-success {
+    background: #2ecc71;
+    color: white;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-secondary {
+    background: #777;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================
+   SECCIONES
+========================= */
+#contacto {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.9);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}

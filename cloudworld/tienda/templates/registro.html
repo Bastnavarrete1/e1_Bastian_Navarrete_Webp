@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Crear cuenta</h2>
+
+<div style="display: flex; justify-content: center;">
+
+    <div class="card" style="width: 350px;">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div style="color:red; margin-bottom:10px;">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <label>Usuario</label>
+            {{ form.username }}
+
+            <label>Email</label>
+            {{ form.email }}
+
+            <label>Contraseña</label>
+            {{ form.password }}
+
+            <button type="submit" class="btn btn-primary">
+                Registrarse
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

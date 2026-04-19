@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Editar Perfil</h2>
+
+<div class="card p-3">
+
+    
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <h3>Datos de usuario</h3>
+
+        <label>Username</label>
+        <input type="text" name="username" value="{{ request.user.username }}" class="form-control">
+
+        <label class="mt-2">Email</label>
+        <input type="email" name="email" value="{{ request.user.email }}" class="form-control">
+
+        <label class="mt-2">Cambiar contraseña</label>
+        <input type="password" name="password" class="form-control">
+
+        <hr>
+
+        <h3>Datos de perfil</h3>
+
+        <!-- 🔥 AQUÍ USAS EL FORM -->
+        {{ form.telefono.label_tag }}
+        {{ form.telefono }}
+
+        {{ form.direccion.label_tag }}
+        {{ form.direccion }}
+
+        <button type="submit" class="btn btn-success mt-3">
+            Guardar
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}

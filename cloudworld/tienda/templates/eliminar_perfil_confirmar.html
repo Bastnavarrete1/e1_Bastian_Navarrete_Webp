@@ -1,0 +1,9 @@
+<h2>Eliminar cuenta</h2>
+
+<p>Seguro que quieres eliminar tu cuenta?.</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Si, eliminar</button>
+    <a href="{% url 'ver_perfil' %}" class="btn btn-secondary">Cancelar</a>
+</form>
