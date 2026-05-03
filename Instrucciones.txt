@@ -1,13 +1,22 @@
-Instrucciones para ejecutar
+Instalar dependencias:
+pip install -r requirements.txt
 
-1. Ejecutar migraciones:
-   python manage.py migrate
+migraciones:
+python manage.py migrate
 
-2. Crear superusuario:
-   python manage.py createsuperuser
+Cargar datos iniciales
+python manage.py loaddata datos.json
 
-   Ej: (Prueba2 / Duoc123.)
+Levantar servidor:
+python manage.py runserver
 
 
-3. Ejecutar servidor:
-   python manage.py runserver
+Usuarios:
+
+Admin:
+Usuario: Prueba2
+Password: Duoc123.
+
+Cliente:
+Usuario: Bastian
+Password: Duoc123.
