@@ -17,41 +17,92 @@
     <p>Tienda especialista en liquidos de vaper frutales</p>
 </header>
 
-<nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
 
-    <a href="{% url 'inicio' %}">Inicio</a>
+        <a class="navbar-brand" href="{% url 'inicio' %}">
+            CloudWorld ☁
+        </a>
 
-    {% if user.is_authenticated %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <a href="{% url 'ver_carrito' %}">Carrito</a>
-        <a href="{% url 'ver_perfil' %}">Perfil</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
 
-        {% if user.is_superuser %}
-            <a href="{% url 'lista_usuarios' %}">Gestion de usuarios</a>
-        {% endif %}
+            <ul class="navbar-nav me-auto">
 
-        <a href="{% url 'logout' %}">Salir</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
+                </li>
 
-    {% else %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ver_carrito' %}">Carrito</a>
+                    </li>
 
-        <a href="{% url 'login' %}">Iniciar sesion</a>
-        <a href="{% url 'registro' %}">Registro</a>
-        <a href="{% url 'password_reset' %}">Recuperar contraseña</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ver_perfil' %}">Perfil</a>
+                    </li>
 
-    {% endif %}
+                    {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lista_usuarios' %}">Usuarios</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'datos_externos' %}">Datos externos</a>
+                        </li>
+
+            </ul>
+
+            <ul class="navbar-nav">
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'logout' %}">Salir</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'password_reset' %}">Recuperar</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
+        </div>
+    </div>
 </nav>
 
-<div class="container">
+<div class="container mt-3">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     {% block content %}
     {% endblock %}
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
 
 </body>
 
-<footer>
+<footer class="text-center mt-4">
     <p>© CloudWorld 2025 - Todos los derechos reservados</p>
 </footer>
 

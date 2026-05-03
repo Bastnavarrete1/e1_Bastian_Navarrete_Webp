@@ -184,3 +184,13 @@ footer {
     padding: 10px;
     margin-top: 20px;
 }
+
+.mensaje-stock {
+    background-color: #dc3545; /* rojo */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 10px;
+}

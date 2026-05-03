@@ -39,4 +39,11 @@ urlpatterns = [
     path('usuarios/', views.lista_usuarios, name='lista_usuarios'),
     path('usuarios/editar/<int:id>/', views.editar_usuario, name='editar_usuario'),
     path('usuarios/eliminar/<int:id>/', views.eliminar_usuario, name='eliminar_usuario'),
+
+    #--------------------------------------------------------------------------------------------------------
+    path('api/productos/', views.api_productos, name='api_productos'),
+    path('api/categorias/', views.api_categorias, name='api_categorias'),
+    path('api/dolar/', views.api_dolar, name='api_dolar'),
+    path('api/clima/', views.api_clima, name='api_clima'),
+    path('datos_externos/', views.datos_externos, name='datos_externos'),
 ]

@@ -6,7 +6,7 @@
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
 
-{% for item in items %}
+    {% for item in items %}
     <div class="card">
 
         <h3>{{ item.producto.nombre }}</h3>
@@ -15,22 +15,32 @@
             <img src="{{ item.producto.imagen }}" style="width:100%; height:200px; object-fit:cover; border-radius:8px;">
         {% endif %}
 
+        <p><strong>Stock disponible:</strong> {{ item.producto.stock }}</p>
+
+        {% if item.producto.stock == 0 %}
+            <div class="mensaje-stock">
+                No hay más stock disponible
+            </div>
+        {% endif %}
+
         <p><strong>Cantidad:</strong> {{ item.cantidad }}</p>
         <p><strong>Subtotal:</strong> ${{ item.subtotal }}</p>
 
-        <!-- BOTONES -->
         <div style="display: flex; gap: 5px; margin-top: 10px;">
 
-            <a href="{% url 'agregar_carrito' item.producto.id %}" class="btn btn-success">+</a>
+            {% if item.producto.stock > item.cantidad %}
+                <a href="{% url 'agregar_carrito' item.producto.id %}" class="btn btn-success">+</a>
+            {% else %}
+                <button class="btn btn-secondary" disabled>Sin stock</button>
+            {% endif %}
 
             <a href="{% url 'restar_carrito' item.id %}" class="btn btn-secondary">-</a>
-
             <a href="{% url 'eliminar_carrito' item.id %}" class="btn btn-danger">Eliminar</a>
 
         </div>
 
     </div>
-{% endfor %}
+    {% endfor %}
 
 </div>
 
