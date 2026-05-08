@@ -2,31 +2,40 @@
 
 {% block content %}
 
-<h2>Crear cuenta</h2>
+<h2 class="mb-4">Crear cuenta</h2>
 
-<div style="display: flex; justify-content: center;">
+<div class="d-flex justify-content-center">
 
-    <div class="card" style="width: 350px;">
+    <div class="card p-4" style="width: 400px;">
 
-        <form method="POST">
+        <form method="POST" id="registroForm">
             {% csrf_token %}
 
             {% if form.errors %}
-                <div style="color:red; margin-bottom:10px;">
+                <div class="alert alert-danger">
                     {{ form.errors }}
                 </div>
             {% endif %}
 
-            <label>Usuario</label>
-            {{ form.username }}
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                {{ form.username }}
+                <div class="text-danger error-message"></div>
+            </div>
 
-            <label>Email</label>
-            {{ form.email }}
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                <div class="text-danger error-message"></div>
+            </div>
 
-            <label>Contraseña</label>
-            {{ form.password }}
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                {{ form.password }}
+                <div class="text-danger error-message"></div>
+            </div>
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary w-100">
                 Registrarse
             </button>
 

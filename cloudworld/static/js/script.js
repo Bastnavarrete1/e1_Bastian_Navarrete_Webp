@@ -1,54 +1,157 @@
 $(document).ready(function () {
-    // Validación al enviar el formulario
+
     $("#contactForm").submit(function (event) {
+
         event.preventDefault();
 
         let isValid = true;
 
-        // Ocultar mensajes de error y quitar clases
         $(".error-message").hide();
         $(".form-control").removeClass("is-invalid");
 
-        // Validar Nombre
+
         if ($("#nombre").val().trim() === "") {
+
             $("#nombre").addClass("is-invalid");
-            $("#nombre").next(".error-message").text("El nombre es obligatorio.").show();
+
+            $("#nombre")
+                .next(".error-message")
+                .text("El nombre es obligatorio")
+                .show();
+
             isValid = false;
         }
 
-        // Validar Email
+
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if ($("#email").val().trim() === ""|| !emailPattern.test($("#email").val())) {
+
+        if (
+            $("#email").val().trim() === "" ||
+            !emailPattern.test($("#email").val())
+        ) {
+
             $("#email").addClass("is-invalid");
-            $("#email").next(".error-message").text("Por favor ingresar email correctamente.").show();
+
+            $("#email")
+                .next(".error-message")
+                .text("Por favor ingresar email valido")
+                .show();
+
             isValid = false;
         }
 
-        // Validar Teléfono (solo números)
+
         let telefonoRegex = /^[0-9]+$/;
-        if ($("#telefono").val().trim() === "" || !telefonoRegex.test($("#telefono").val())) {
+
+        if (
+            $("#telefono").val().trim() === "" ||
+            !telefonoRegex.test($("#telefono").val())
+        ) {
+
             $("#telefono").addClass("is-invalid");
-            $("#telefono").next(".error-message").text("El teléfono es obligatorio.").show();
+
+            $("#telefono")
+                .next(".error-message")
+                .text("El telefono es obligatorio")
+                .show();
+
             isValid = false;
         }
 
-        // Validar Checkbox
+
         if (!$("#terminos").is(":checked")) {
+
             $("#terminos").addClass("is-invalid");
-            $("#terminos").next(".error-message").text("Solo se permirten numeros.").show();
+
+            $("#terminos")
+                .next(".error-message")
+                .text("Debe aceptar los terminos")
+                .show();
+
             isValid = false;
         }
 
-        // Si todo es válido
+
         if (isValid) {
+
             alert("Formulario enviado correctamente!");
             $("#contactForm")[0].reset();
         }
+
     });
-    
-    // Quitar error al marcar el checkbox - papito dios es grande porque me funciono
-    $("#terminos").change(function(){
+
+
+    $("#terminos").change(function () {
+
         $(this).removeClass("is-invalid");
-        $(this).closest(".form-check").find(".error-message").hide();
+
+        $(this)
+            .closest(".form-check")
+            .find(".error-message")
+            .hide();
     });
+
+
+    $("#registroForm").submit(function (event) {
+
+        let valido = true;
+
+        $(".error-message").text("");
+        $(".form-control").removeClass("is-invalid");
+
+
+        // Usuario
+        let username = $("#id_username").val().trim();
+
+        if (username.length < 5) {
+
+            $("#id_username").addClass("is-invalid");
+
+            $("#id_username")
+                .closest(".mb-3")
+                .find(".error-message")
+                .text("El usuario debe tener minimo 5 caracteres");
+
+            valido = false;
+        }
+
+
+        let email = $("#id_email").val().trim();
+
+        let emailRegex2 = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex2.test(email)) {
+
+            $("#id_email").addClass("is-invalid");
+
+            $("#id_email")
+                .closest(".mb-3")
+                .find(".error-message")
+                .text("Ingrese un email valido");
+
+            valido = false;
+        }
+
+
+        let password = $("#id_password").val();
+
+        if (password.length < 8) {
+
+            $("#id_password").addClass("is-invalid");
+
+            $("#id_password")
+                .closest(".mb-3")
+                .find(".error-message")
+                .text("La contraseña debe tener minimo 8 caracteres");
+
+            valido = false;
+        }
+
+
+        if (!valido) {
+            event.preventDefault();
+        }
+
+    });
+
 });

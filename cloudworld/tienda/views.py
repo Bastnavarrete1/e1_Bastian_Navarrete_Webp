@@ -9,12 +9,15 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.db.models import Q
 
+
 #Apis----------------------------------------------------------------------------------------------------
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import ProductoSerializer
 from .models import Categoria
 from .serializers import CategoriaSerializer
+from django.core.cache import cache
 
 import requests
 #--------------------------------------------------------------------------------------------------------
@@ -372,52 +375,87 @@ def api_categorias(request):
 
 #--------------------------------------------------------------------------------------------------------
 
-def api_dolar(request):
-    response = requests.get("https://mindicador.cl/api/dolar")
-    data = response.json()
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_productos(request):
+    productos = Producto.objects.all()
+    serializer = ProductoSerializer(productos, many=True)
+    return Response(serializer.data)
 
-    valor = data["serie"][0]["valor"]
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_categorias(request):
+    categorias = Categoria.objects.all()
+    serializer = CategoriaSerializer(categorias, many=True)
+    return Response(serializer.data)
+
+#--------------------------------------------------------------------------------------------------------
+
+@login_required
+def api_dolar(request):
+
+    valor = cache.get("valor_dolar")
+
+    if valor is None:
+
+        try:
+            response = requests.get("https://mindicador.cl/api/dolar", timeout=5)
+            response.raise_for_status()
+
+            data = response.json()
+            valor = data["serie"][0]["valor"]
+
+            cache.set("valor_dolar", valor, 300)
+
+        except requests.exceptions.RequestException:
+            valor = "No disponible"
+
+        except (KeyError, IndexError, ValueError):
+            valor = "Error al obtener datos"
 
     return render(request, "api_dolar.html", {
         "valor": valor
     })
 
 
-#Me tuve que crear una cuenta en la pagina porque no encontre otra que me diera el clima local jaja---------------
-
+@login_required
 def api_clima(request):
+
     url = "http://api.weatherstack.com/current?access_key=67d8ce95cf31fd44b7591e632dd64185&query=Santiago"
 
     try:
         response = requests.get(url, timeout=5)
+        response.raise_for_status()
+
         data = response.json()
+
+        if "current" not in data:
+            raise ValueError("API sin datos")
+
+        temperatura = data["current"].get("temperature", "No disponible")
+        descripcion = data["current"].get("weather_descriptions", ["No disponible"])[0]
+
+        traducciones = {
+            "Sunny": "Soleado",
+            "Clear": "Despejado",
+            "Partly cloudy": "Parcialmente nublado",
+            "Cloudy": "Nublado",
+            "Haze": "Bruma",
+            "Rain": "Lluvia",
+            "Light rain": "Lluvia ligera",
+            "Heavy rain": "Lluvia intensa"
+        }
+
+        descripcion = traducciones.get(descripcion, descripcion)
+
+    except requests.exceptions.RequestException:
+        temperatura = "No disponible"
+        descripcion = "Error de conexión con API"
+
     except Exception:
-        return render(request, "api_clima.html", {
-            "temperatura": "No disponible",
-            "descripcion": "No disponible"
-        })
-
-    if "current" not in data:
-        return render(request, "api_clima.html", {
-            "temperatura": "No disponible",
-            "descripcion": "No disponible"
-        })
-
-    temperatura = data["current"].get("temperature", "No disponible")
-    descripcion = data["current"].get("weather_descriptions", ["No disponible"])[0]
-
-    traducciones = {
-                "Sunny": "Soleado",
-                "Clear": "Despejado",
-                "Partly cloudy": "Parcialmente nublado",
-                "Cloudy": "Nublado",
-                "Haze": "Bruma",
-                "Rain": "Lluvia",
-                "Light rain": "Lluvia ligera",
-                "Heavy rain": "Lluvia intensa"
-    }
-
-    descripcion = traducciones.get(descripcion, descripcion)
+        temperatura = "No disponible"
+        descripcion = "Error al obtener datos"
 
     return render(request, "api_clima.html", {
         "temperatura": temperatura,
@@ -425,49 +463,108 @@ def api_clima(request):
     })
 
 
-#Segun lo que entendi tenia que dejarlas separadas ambas del uso individual aunque se vea feo----------------------------
+#--------------------------------------------------------------------------------------------------------
 
-
+@login_required
 def datos_externos(request):
 
-    try:
-        response_dolar = requests.get("https://mindicador.cl/api/dolar", timeout=5)
-        data_dolar = response_dolar.json()
-        valor_dolar = data_dolar["serie"][0]["valor"]
-    except:
-        valor_dolar = "No disponible"
+    valor_dolar = cache.get("valor_dolar")
+    datos_clima = cache.get("datos_clima")
 
-    try:
-        url_clima = "http://api.weatherstack.com/current?access_key=67d8ce95cf31fd44b7591e632dd64185&query=Santiago"
-        response_clima = requests.get(url_clima, timeout=5)
-        data_clima = response_clima.json()
+    # ---------------- DOLAR ----------------
 
-        if "current" in data_clima:
-            temperatura = data_clima["current"].get("temperature", "No disponible")
-            descripcion = data_clima["current"].get("weather_descriptions", ["No disponible"])[0]
+    if valor_dolar is None:
 
-            traducciones = {
-                "Sunny": "Soleado",
-                "Clear": "Despejado",
-                "Partly cloudy": "Parcialmente nublado",
-                "Cloudy": "Nublado",
-                "Haze": "Bruma",
-                "Rain": "Lluvia",
-                "Light rain": "Lluvia ligera",
-                "Heavy rain": "Lluvia intensa"
+        try:
+            response_dolar = requests.get(
+                "https://mindicador.cl/api/dolar",
+                timeout=5
+            )
+
+            response_dolar.raise_for_status()
+
+            data_dolar = response_dolar.json()
+            valor_dolar = data_dolar["serie"][0]["valor"]
+
+            cache.set("valor_dolar", valor_dolar, 300)
+
+        except requests.exceptions.RequestException:
+            valor_dolar = "Servicio no disponible"
+
+        except (KeyError, IndexError, ValueError):
+            valor_dolar = "Error al obtener datos"
+
+    # ---------------- CLIMA ----------------
+
+    if datos_clima is None:
+
+        try:
+            url_clima = (
+                "http://api.weatherstack.com/current"
+                "?access_key=67d8ce95cf31fd44b7591e632dd64185"
+                "&query=Santiago"
+            )
+
+            response_clima = requests.get(url_clima, timeout=5)
+            response_clima.raise_for_status()
+
+            data_clima = response_clima.json()
+
+            if "current" in data_clima:
+
+                temperatura = data_clima["current"].get(
+                    "temperature",
+                    "No disponible"
+                )
+
+                descripcion = data_clima["current"].get(
+                    "weather_descriptions",
+                    ["No disponible"]
+                )[0]
+
+                traducciones = {
+                    "Sunny": "Soleado",
+                    "Clear": "Despejado",
+                    "Partly cloudy": "Parcialmente nublado",
+                    "Cloudy": "Nublado",
+                    "Haze": "Bruma",
+                    "Rain": "Lluvia",
+                    "Light rain": "Lluvia ligera",
+                    "Heavy rain": "Lluvia intensa"
+                }
+
+                descripcion = traducciones.get(descripcion, descripcion)
+
+                datos_clima = {
+                    "temperatura": temperatura,
+                    "descripcion": descripcion
+                }
+
+                cache.set("datos_clima", datos_clima, 300)
+
+            else:
+
+                datos_clima = {
+                    "temperatura": "No disponible",
+                    "descripcion": "Error API"
+                }
+
+        except requests.exceptions.RequestException:
+
+            datos_clima = {
+                "temperatura": "Servicio no disponible",
+                "descripcion": "Error conexión"
             }
 
-            descripcion = traducciones.get(descripcion, descripcion)
-        else:
-            temperatura = "No disponible"
-            descripcion = "Error API"
+        except (KeyError, IndexError, ValueError):
 
-    except:
-        temperatura = "No disponible"
-        descripcion = "No disponible"
+            datos_clima = {
+                "temperatura": "No disponible",
+                "descripcion": "Error datos"
+            }
 
     return render(request, "datos_externos.html", {
         "dolar": valor_dolar,
-        "temperatura": temperatura,
-        "descripcion": descripcion
+        "temperatura": datos_clima["temperatura"],
+        "descripcion": datos_clima["descripcion"]
     })
