@@ -33,8 +33,6 @@ class RegistroForm(forms.ModelForm):
 
 
     # ------------------------------------------------------------------
-    # VALIDACION USERNAME
-    # ------------------------------------------------------------------
 
     def clean_username(self):
 
@@ -48,8 +46,6 @@ class RegistroForm(forms.ModelForm):
         return username
 
 
-    # ------------------------------------------------------------------
-    # VALIDACION PASSWORD
     # ------------------------------------------------------------------
 
     def clean_password(self):
@@ -78,8 +74,6 @@ class RegistroForm(forms.ModelForm):
 
 
     # ------------------------------------------------------------------
-    # VALIDACION EMAIL
-    # ------------------------------------------------------------------
 
     def clean_email(self):
 
@@ -93,8 +87,6 @@ class RegistroForm(forms.ModelForm):
         return email
 
 
-# -----------------------------------------------------------------------------------------
-# FORM PRODUCTOS
 # -----------------------------------------------------------------------------------------
 
 class ProductoForm(forms.ModelForm):
@@ -161,8 +153,6 @@ class ProductoForm(forms.ModelForm):
         return stock
 
 
-# -----------------------------------------------------------------------------------------
-# FORM PERFIL
 # -----------------------------------------------------------------------------------------
 
 class PerfilForm(forms.ModelForm):

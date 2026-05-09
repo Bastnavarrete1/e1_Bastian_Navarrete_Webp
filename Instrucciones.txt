@@ -1,17 +1,17 @@
 Instalar dependencias:
 pip install -r requirements.txt
 
-migraciones:
+Ejecutar migraciones:
 python manage.py migrate
 
-Cargar datos iniciales
+Cargar datos iniciales:
 python manage.py loaddata datos.json
 
 Levantar servidor:
 python manage.py runserver
 
 
-Usuarios:
+Usuarios de prueba recomendados:
 
 Admin:
 Usuario: Prueba2
