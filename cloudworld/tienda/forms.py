@@ -180,6 +180,6 @@ class PerfilForm(forms.ModelForm):
 
             'direccion': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Tu dirección'
+                'placeholder': 'Tu direccion'
             }),
         }
