@@ -100,7 +100,6 @@ $(document).ready(function () {
         $(".form-control").removeClass("is-invalid");
 
 
-        // Usuario
         let username = $("#id_username").val().trim();
 
         if (username.length < 5) {

@@ -156,15 +156,15 @@ def editar_perfil(request):
         password_actual = request.POST.get("password_actual")
 
         if not username:
-            messages.error(request, "El username no puede estar vacío")
+            messages.error(request, "El username no puede estar vacio")
             return redirect("editar_perfil")
 
         if not email:
-            messages.error(request, "El email no puede estar vacío")
+            messages.error(request, "El email no puede estar vacio")
             return redirect("editar_perfil")
 
         if User.objects.filter(email=email).exclude(id=request.user.id).exists():
-            messages.error(request, "Este email ya está en uso")
+            messages.error(request, "Este email ya esta en uso")
             return redirect("editar_perfil")
 
         if form.is_valid():
@@ -239,7 +239,7 @@ def agregar_al_carrito(request, producto_id):
 
     if not created:
         if item.cantidad >= producto.stock:
-            messages.error(request, "No puedes agregar más unidades (stock máximo)")
+            messages.error(request, "No puedes agregar mas unidades (stock maximo)")
             return redirect("ver_carrito")
 
         item.cantidad += 1
@@ -331,7 +331,7 @@ def editar_usuario(request, id):
         email = request.POST.get("email")
 
         if User.objects.filter(email=email).exclude(id=user.id).exists():
-            messages.error(request, "Este email ya está en uso")
+            messages.error(request, "Este email ya esta en uso")
             return redirect("editar_usuario", id=id)
 
         user.username = request.POST.get("username")
@@ -357,21 +357,6 @@ def eliminar_usuario(request, id):
         return redirect("lista_usuarios")
 
     return render(request, "usuarios/eliminar_usuario.html", {"usuario": user})
-
-#--------------------------------------------------------------------------------------------------------
-
-@api_view(['GET'])
-def api_productos(request):
-    productos = Producto.objects.all()
-    serializer = ProductoSerializer(productos, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def api_categorias(request):
-    categorias = Categoria.objects.all()
-    serializer = CategoriaSerializer(categorias, many=True)
-    return Response(serializer.data)
-
 
 #--------------------------------------------------------------------------------------------------------
 
@@ -451,7 +436,7 @@ def api_clima(request):
 
     except requests.exceptions.RequestException:
         temperatura = "No disponible"
-        descripcion = "Error de conexión con API"
+        descripcion = "Error de conexion con API"
 
     except Exception:
         temperatura = "No disponible"
@@ -471,14 +456,12 @@ def datos_externos(request):
     valor_dolar = cache.get("valor_dolar")
     datos_clima = cache.get("datos_clima")
 
-    # ---------------- DOLAR ----------------
-
+    # ---------------------------------------------------------------------------------------------------
     if valor_dolar is None:
 
         try:
             response_dolar = requests.get(
-                "https://mindicador.cl/api/dolar",
-                timeout=5
+                "https://mindicador.cl/api/dolar", timeout=5
             )
 
             response_dolar.raise_for_status()
@@ -494,15 +477,12 @@ def datos_externos(request):
         except (KeyError, IndexError, ValueError):
             valor_dolar = "Error al obtener datos"
 
-    # ---------------- CLIMA ----------------
-
+    # ----------------------------------------------------------------------------------------------------
     if datos_clima is None:
 
         try:
             url_clima = (
-                "http://api.weatherstack.com/current"
-                "?access_key=67d8ce95cf31fd44b7591e632dd64185"
-                "&query=Santiago"
+                "http://api.weatherstack.com/current""?access_key=67d8ce95cf31fd44b7591e632dd64185""&query=Santiago"
             )
 
             response_clima = requests.get(url_clima, timeout=5)
@@ -553,7 +533,7 @@ def datos_externos(request):
 
             datos_clima = {
                 "temperatura": "Servicio no disponible",
-                "descripcion": "Error conexión"
+                "descripcion": "Error conexion"
             }
 
         except (KeyError, IndexError, ValueError):
